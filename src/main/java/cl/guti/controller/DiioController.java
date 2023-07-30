@@ -8,6 +8,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -167,7 +168,10 @@ public class DiioController {
     
     @GetMapping("/lista") 
 	public ResponseEntity<?> getTodos() {
-    	
+    	var auth =  SecurityContextHolder.getContext().getAuthentication();
+        Log.info("Datos del Usuario: " + auth.getPrincipal());
+        Log.info("Datos de los Permisos " + auth.getAuthorities());
+        Log.info("Esta autenticado " + auth.isAuthenticated());
 		List<DiioDto> listaDto = new ArrayList<>();
 		try {
 			List<Diio> lista = service.listar();
